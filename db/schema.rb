@@ -10,7 +10,41 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180315010923) do
+ActiveRecord::Schema.define(version: 20180316011650) do
+
+  create_table "articles", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_articles_on_user_id"
+  end
+
+  create_table "notes", force: :cascade do |t|
+    t.integer "user_id"
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_notes_on_user_id"
+  end
+
+  create_table "order_items", force: :cascade do |t|
+    t.integer "product_id"
+    t.integer "quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_order_items_on_product_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "order_item_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_item_id"], name: "index_orders_on_order_item_id"
+    t.index ["user_id"], name: "index_orders_on_user_id"
+  end
 
   create_table "products", force: :cascade do |t|
     t.string "name"
@@ -20,6 +54,18 @@ ActiveRecord::Schema.define(version: 20180315010923) do
     t.datetime "updated_at", null: false
     t.boolean "published"
     t.datetime "published_at"
+    t.string "size"
+    t.string "legacy_code"
+    t.boolean "available"
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_products_on_user_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "name"
+    t.text "mail"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end
